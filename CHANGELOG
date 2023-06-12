@@ -1,0 +1,530 @@
+
+#DSP MET202030110
+
+- Reservation WMS -----------------------------
+*Cod50040.AutomaticReservationWMS : Modification des filtres de parcours de la table 
+    des lignes de vente et ajout d'une condition sur les entetes de cde vente ayant le 
+    statut 'Lancé'.
+*Pag-Ext50026.CompanyInformation : Ajout d'un bouton permettant d'executer le CodeUnit
+    Cod50040.AutomaticReservationWMS directement.
+
+- Code50041.ExportReservation : ajout  heure-minutes-secondes dans le nom du fichier.
+
+- Cod50042.AutomaticReservationPackaging : c'est sensiblement le meme codeunit que le 
+    Cod50040 - Automatic Reservation WMS mais avec des filtres differents (boucle differente aussi).
+
+- Securisation OF -----------------------------
+*Pag-Ext50030.productionJournal.al
+*Pag-Ext50102.OutPutJournal.al ( NEW )
+
+#DSP MEP20221213
+-	Ajout d’une procédure Pour valider les commandes de vente/facturation pour appel en WebService
+    CodeUnit 50060 / Procedure PostSalesInvoice
+-	Ajout des champs MOQ et Multiple dans les tables Prix_Vente et Ligne_Vente ( + ajout des champs dans les pages affiliées )
+    Tab-Ext 50046 / Tab-Ext 50005 / Pag-Ext 50095 / Pag-Ext 50011 / Pag-Ext 50035
+-	Sécurisation Of : Ajout d’un champs Booléen dans la table Paramètres_Production
+    Tab-Ext50039
+
+- Demande GLPI 6173 / J.STOUMEN
+
+- Ajout d u champs  Date Livraison demandée dans la page Ligne de vente 50035
+
+                field("Requested Delivery Date"; "Requested Delivery Date")
+                {
+                    ApplicationArea = Basic, Suite;
+                    Editable = false;
+                    Tooltip = 'Date de livraison demandée', Locked = true;
+                }  
+
+
+
+#LLA 20210519
+- Ajout des nouvelles fonctions pour les Web Service.
+Codeunit 50060
+CreateWhseReceipt2->créer un Whse Receipt et retourne le N° de Warehouse Receipt
+PostWhseReceipt->Validation d'un whse Receipt
+
+#PRO 20201202
+    - Correction des réservations. Un seul codeunit de réservations et 3 code unit d'appelle avec des filtres différents.
+    les codeunits sont compatible NAS
+
+#MET 20200403 MET
+    - Tab-Ext50045.WarehousEntry : Création de la table EXT pour création du champs TRANSFERT MODULA
+    - Tab-Ext50008.CompanyInformation : Création du champs Modula Path, Création du bouton EDI Modula pour execution 
+    - Pag-Ext50026.CompanyInformation : Créationd e l'affichage du Path et du Bouton
+    - Cod50010.WmsModula : Creation du Code unit pour generer l'EDI Modula
+
+#MET 20200401 MET
+    - Rep50037.ItemsBarcodeMPAlgo AL RDL : Création d'un report pour Jerome basé sur le report 50036
+
+#MET 20200331 MET
+    - Pag500011.transferline : ajout du champs Purch Order No dans la page des lignes transfert vers GOY.
+    - Pag-Ext50066.transferOrderSubform.al : ajout du champs Purch Order No dans la page des lignes transfert.
+    - Pag-Ext50067.transferline.al :  ajout du champs Purch Order No dans la page des lignes transfert vers ALGO.
+    - Rep50006.PreparationCheckListODTv2 AL RDL : ajout du n° doc externe dans le report ( = n° CA )
+    - Tab-Ext50028.transferLine.al : ajout du champs Purch. Order no = N° doc externe(transfert entete) (n°ca) au niveau 
+        des ligne de transferts pour permettre des filtres.
+
+#MEP 20200317 Soir
+    - Modification du report R50064 - Prevision MP
+     Initialisation par defaut des variables OPTIONS dans le request page
+     Ajout de la Qté Mp par unité d'article
+     Renommage de la colonne Qté MP en Qté MP sur le 1er mois de prévision
+
+#MEP 20200303 Soir
+    - Modification du CU50006 - CU500007 pour MoovApps
+    - Creation de la table Temp Receipt Line 2 - 50029 pour MoovApps
+    - Correction du report 50064 - Pour les prévision MP
+    - MEP 20200302 Soir -> note ajoutée le 20200303 / Voir mail de rapport de D.SPEYER - Lot 3 WMS
+
+#CHANGELOG 2020-02-20 Soir
+#LOT 2 - DSP20200219 - DSP 
+   - Tab50009 – Temp Receipt Line : Ajout du champs WMS NO IMPUTATION -> Fait
+   - TabExt 50007 – Ext(39)  Ligne Achat : Ajout du champs WMS NO IMPUTATION – Fait 
+   - TabExt 50017 – Ext(121) Ligne Recpt Achat Enregistré : Ajout du champs WMS NO IMPUTATION -> Fait
+   - Page  50028 – Ligne Recept Achat Enreg A – Ajout du champs WMS No Imputation - > Fait
+   - Page 50020 – Ligne Achat dans la fiche Commande Achat – Ajout du champs WMS No Imputation -> Fait
+   - CodeUnit 50007 en test : copie du 50006 en Prod modifié pour intégrer dans le regroupement la notion de n° d’imputation -> Fait
+   - Ce CU50007 ne flag pas les lignes, et s’exécute uniquement pour la date sur WORKDATE.
+   - CodeUnit50006 en test : copie 50007 avec qlq particularités : Fait
+   - Mais en PROD ça sera le 50006 ( à l’équivalent du 50007 ) sauf que le champs exporté sera flaggé et que la date filtre 
+   - dans le code sera positionnée à partir du 01/01/2019 et que le message de bonne exécution sera enlevé.
+
+#CHANGELOG 2020-02-19 Soir
+#LOT 1 - DSP20200219 - DSP
+    - Traitement Report CA pour le DEV
+    - Modification Changer Statut OF : ajout champs centre de charge, qte restante, date derniere receptions
+    - modification CU50030 pour export inventory CLIC
+    
+#CHANGELOG 2019-12-04 Soir
+
+Creation du code unit 50008 : pour envoyer une alerte mail lorsqu'un JOB est en ERREUR ou en ATTENTE
+    Pour planification sur le CLIC toutes les 30 min à partir de 8h08 jusqu'a 18h08
+
+Code unit 50007 : version de test : 
+    - elle ne flag aucune ligne
+    - elle traite uniquement les receptions en date de comptabilisation = workdate()
+    - les fichiers créés vont dans le repertoire vmapp2/partage/Movvapps comme en production
+    donc attention en cas de test de bien enlever ces fichiers afin qu'il ne soit pas intégrés dans MoovApps
+    - Elle se lance manuellement via un bouton placé dans Information société
+
+#CHANGELOG 2019-12-02 Soir
+
+Ticket 2752 - Prevision MP - A.TAVERNE
+Ref Technique Report 50064
+--> Probleme avec les codes version > 10 caracteres
+----> Modification de la variable du report à 20 caracteres
+
+Ticket MoovApps - spliter les receptions achats par articles 
+Creation du code unit 50007 : export manuel des receptions achats du jour avec rupture sur le code article
+Ajout du bouton fonction dans la page infos société
+Attention : l'execution du code unit 50007 ne flag pas les lignes des achats receptions et se place dans le repertoire MoovApps 
+comme en production : les fichiers générés sont identifiables par leur nom :
+Atelier + Article + Date + 'MAN'.XLSX
+
+=====================
+
+
+#CHANGELOG 2019-11-13 Midi
+
+Ticket xxxx - H.Buis - logistique
+Ref Technique : Pag-Ext 50015 & Table-Ext50006
+--> Desactivation du trigger dans la page qui valorisait la date comptabilisation lors de l'aftergetrecord
+--> Ajout d'un evenement sur le n° de BL Fournisseur sur Onvalidate
+----> Correction apportée dans le code en ajoutant un controle sur la date compta <> today
+
+
+#CHANGELOG 2019-11-12 Soir
+
+Ticket xxxx - Compta - C.Philippe
+Ref Tech : Page 50044 "Posted Return Shpt Lines"
+-- Ajout de la colonne Qté Ret Exp non facturée
+
+Demande de Magaly Paret - DEV :
+Ref Tech : Chiffrage ALGO Interne - 50083
+à l'impression directe sur papier le pareto etait coupé : ré ajustement du graphique dans le RDL
+
+Ticket xxxx - H.Buis - logistique
+Ref Technique : Pag-Ext 50015 & Table-Ext50006
+--> Desactivation du trigger dans la page qui valorisait la date comptabilisation lors de l'aftergetrecord
+--> Ajout d'un evenement sur le n° de BL Fournisseur sur Onvalidate
+
+
+#ChangeLog 2019-11-05 Soir
+
+Ticket 2548 : Appros / ACOELHO / dde ajout du n° de lot
+Reference technique : R50019
+-- ajout du champs Tracking_no de l'export EXCEL
+
+Demande de Magaly / DEV / Chiffrage ALGO Interne
+Reference Technique : R50083
+-- Correction concernant les calculs entre la gamme et la nomenclature selon le coef de majoration.
+
+
+#ChangeLog 2019-11-05 01h00
+
+Ticket 2548 : Appros / ACOELHO / dde ajout du n° de lot
+Reference technique : R50019 Pag-EXT50068
+-- Ajout du champs Tracking_No dans le report AL R50019
+-- Ajout du champs Tracking_No dans le report RDL R50019
+-- Ajout du champs Tracking_No dans la page EXT Pag-EXT50068
+
+Ticket 2571 / ACOELHO / BL pour les receptions entrepots enregistrées
+Reference Technique : R50026 
+Modifications effectuées :
+-- Taille police sur le n° de prepa de 9 à 11
+-- Police du n° de prepa passé en GRAS
+-- mise en évidence des totaux avec un fond gris
+
+Ticket 2587 / ARIVIERE / pb de marge avec l'edition des CA à la Manuf
+Reference Technique : 50039
+-- Ajustement des marges sur le document
+
+Demande Jerome / APS : 
+Reference technique : TabExt-50002 - PagExt-50004
+-- Ajout du champs COLLECTION dans table_Ext 50057
+-- Ajout du champs COLLECTION dans la fiche article
+
+Demande de Florence / DEV / Chiffrage ALGO Interne
+Reference Technique : R50083
+-- Ajout des options afficher position et position2 dans le report
+-- ajout dans le dataset des champs Position pour le ST et Position 2 pour l'element (poignee...)
+-- Modification du report en consequence
+-- Ajout d'un pareto Graphique
+-- Ajout d'un pareto en valeur 
+-- Ajout de l'option pour affichage du pareto
+
+Demande de L.Calaque / Direction / Chiffrage ALGO Interne
+Reference Technique : R50083
+-- Developpement de la possibilité d'avoir un Coef Majoré différent pour la Gamme et la nomenclature
+-- Creation d'un champs CoefMajorNomenclature dans la table 50027 - TQL
+-- Modification des calculs dans le report 50083.AL
+-- Modification du taux dans le report 50083.Rdl
+-- Alimentation en SQL du nouveau champs : actuellement il a la meme valeur que le Coef Majoré classique 
+    ( défini pour la gamme )
+
+
+#Changelog 2019-10-03 : 
+*DS : Commande achat : ajustement pour une impression complete sur une page en largeur
+*DS : Chiffrage Algo interne : ajustement plus joli du document
+
+#Changelog 2019-10-03 : 
+*DS : Commande Achat : Ajout du n° de BL Fournisseur issu de VDOC
+*DS : Table Ext 50039 - Ajout du champs Prod.Order.No. dans la table des lignes exp ExpTransfErengODT
+*DS : Creation du R50006 - Liste de preparation ODT v2
+
+#Changelog 2019-10-02 : 
+*DS: Désactivation des ajouts suivants pour à priori des problèmes de performances (non vérifié mais dans le doute) : 
+    - Table Ext 50025 : désactivation du champs remaining Qty        
+    CalcFormula = sum("Prod. Order Line"."Remaining Qty. (Base)" WHERE (Status=FIELD(status),"Prod. Order No."=FIELD("No.")));
+    - Page Ext 50094  : désactivation du champs Remaining Qty dans la page
+
+*DS : R50000 : Exp Retour Achat / modification du titre du document en NOTE DE DEBIT
+*DS : R50039 : Facture Achat / ajout du n° de BL remonté par VDOC dans le dataset et le RDL
+*DS : R50083 : Chiffrage Algo Interne
+            - Desactivation de la sauvegarde des filtres utilisateurs : Il faudrait reprendre le report 
+            pour gerer les triggers au niveau code article, version gamme & nomenclature 
+            - Correction de certains calculs pour Luniform
+            - Formatage des nombres dans le tableau des nomenclatures avec affichage decimal max selon la donnée
+
+
+#Changelog 2019-09-30
+*DS : Table Ext 50025: ajout du champs remaining Qty        
+    CalcFormula = sum("Prod. Order Line"."Remaining Qty. (Base)" WHERE (Status=FIELD(status),"Prod. Order No."=FIELD("No.")));
+*DS : Page Ext 50094 : ajout du champs Remaining Qty dans la page pour filtre
+*DS : Report 50031 : ajout du field vendor crmemo n° pour affichage du n° avoir fournisseur dans le Document
+*DS : REport 50083 : correction Cout de transport par cout TQL pour L/uniform
+                     Correction d'impression du report chiffrage algo interne en cons"quence
+
+
+#change log 2019-09-26
+*DS : Report 50031 : affichage decimal et separateur dans l'entete pour le montant total 
+*Ds : page Ext 50042 : ajout de champs Posting Group, Gen Posting group dans la page
+
+
+#Changelog 2019-09-26
+*DS : Report 50083 : Requestpage - Savevalues = yes
+*DS : Table Ext 50001 : Ajout du type GED : FG La Manufacture, MP La Manufacture
+
+#Changelog 2019-09-23
+*DS : Report 50083 : ajustement du layout dans son ensemble
+*DS : report 50009 : affichage du montant avec separateur de millier
+
+#Changelog 2019-09-18
+* DS R50029.rdl : - Affichage du code tva intracomm du client
+                  - Affichage de smentions de TVA
+
+* DS R50033.rdl : - Affichage du code tva intracomm du client
+
+*DS : R50031.AL : ajout du champs column(Amount_Including_VAT; "Amount Including VAT")
+      R50031.rdl: affichage du champs column(Amount_Including_VAT; "Amount Including VAT") en entête sur toutes les pages
+                  Réajustement des zones d'impressions
+
+#Changelog 2019-09-16
+*DS : CU50034 - Modification du CU des export packing list NAS
+
+            // OutStr.WRITETEXT(STRSUBSTNO('%1;%2;%3;%4;%5;%6;%7;%8;%9'
+            //                                , RecPostedPackingLines.Item
+            //                                , RecPostedPackingLines.PO
+            //                                , FORMAT(RecPostedPackingLines.Quantity, 0, 1)
+            //                                , RecPostedPackingLines."Parcel No."
+            //                                , RecPostedPackingLines.Pallet
+            //                                , RecPostedPackingLines."Source No."
+            //                                , RecPostedPackingLines."Parcel Weight"
+            //                                , RecPostedPackingLines."Pallet Weight"
+            //                                , FORMAT(Sequence) + CrLf));
+
+            // Modification du 13/09/2019 - ALGO - DSP : pour avoir des points en separateur de decimal
+            //
+            OutStr.WRITETEXT(STRSUBSTNO('%1;%2;%3;%4;%5;%6;%7;%8;%9'
+                                            , RecPostedPackingLines.Item
+                                            , RecPostedPackingLines.PO
+                                            , FORMAT(RecPostedPackingLines.Quantity, 0, '<Integer><Decimals><Comma,.>')
+                                            , RecPostedPackingLines."Parcel No."
+                                            , RecPostedPackingLines.Pallet
+                                            , RecPostedPackingLines."Source No."
+                                            , FORMAT(RecPostedPackingLines."Parcel Weight", 0, '<Integer><Decimals><Comma,.>')
+                                            , FORMAT(RecPostedPackingLines."Pallet Weight", 0, '<Integer><Decimals><Comma,.>')
+                                            , FORMAT(Sequence) + CrLf));
+
+*DS : REP50029 : Correction du RDL
+
+*DS : REP50033 : Correction affichage du RDL
+    - Ajout du champs GroupCptamarchetva 
+    - RDL : modification de la visibilité de certains elements en fonction du GroupCptamarchetva
+    - RDL : Correction de l'ID TVA IntraCommun affiché
+    - RDL : Ajout des mentions de TVA
+
+* DS : Rep 500091 : Correction du report Besoin Stock qui affichait tous les articles.
+        Correction RDL pour un meilleur affichage du report
+
+
+#Changelog 2019-09-12
+*DS : R50029 - Facture vente des ateliers pour gerer au mieux le TTC / HT
+      Le critere d'affichage est basé sur le groupcomptamarchetva du client
+
+# Changelog 2019-09-05
+* DS : Report50010 - Etiquette l uniform
+    Ticket 2178
+    Modifications effectuées sur le code barre, taille...
+    Modifications sur la police en Proxima Nova RG, taille...
+    Ajout du n° article en requestfilter
+    installation de la font proxima nova rg sur le serveur vmnav18_test et vmnav18
+
+# Changelog 2019-09-04
+
+* DS : Report 50034 – Proposition de sous-traitance : la désignation des articles est fausses dans les lignes de CA de ST créées
+Ticket 2287 - 2243
+Modification du AL :
+// Description := "Prod. Order Routing Line".Description;
+Description := ProdorderLine.Description;
+
+* DS : Report 50094 - Fiche Suiveuse Consomation : ajout d’une rupture à l’impression à chaque n° d’OF
+Ticket 2306
+Modification du RDL :
+    <GroupExpression>=Fields!ProdOrder_No_.Value</GroupExpression>
+        </GroupExpressions>
+            <PageBreak>
+                 <BreakLocation>Start</BreakLocation>
+             </PageBreak>
+
+* DS : Table50012 – Unit Cost Budget : Ajout de la mention CUFR dans les types de couts.
+Ticket 2312
+        field(13; "Cost Type"; Option)
+        {
+            Caption = 'Cost Type';
+            DataClassification = CustomerContent;
+            OptionCaption = ',Budget Unit Cost,Revised Unit Cost,Vendor Unit Cost,Revised Vendor Unit Cost';
+            OptionMembers = ,"C.U.B.","C.U.R.","C.U.F.","C.U.F.R.";
+        }
+
+* DS : Table-Ext50002 – Item : Modification du libellé 352Only par Reedition
+Demande mail de Jerome
+        field(50033; "Life Cycle"; Option)
+        {
+            Caption = 'Cycle de vie';
+            DataClassification = CustomerContent;
+            // OptionMembers = ,Active,ALAS,Dead,"Make to Order",NOORDER,"Special order",NOVELTIESHQ,"352ONLY",Developpement;
+            OptionMembers = ,Active,ALAS,Dead,"Make to Order",NOORDER,"Special order",NOVELTIESHQ,"Reedition",Developpement;
+
+* DS : Desactivation 
+    Les personnes de la logistique nous informe qu’ils reçoivent 2 fois les mails du colisage lors de la validations des BP.
+    Afin de remédie à cette problématique, on a analysé ceci :
+    - on a la tache planifiée qui exécute le CU50034.ExportPackingListNAS.al toutes les 10 min 
+    et on a le CU50031.ExportPackingList.al qui s’exécute  lors de la validation d’une expédition par l’event dans le Cod50051.StdCodeunitEvents.al 
+    Tout l’event en commentaire :
+    -- De ce fait, il n’y aura pas de mail, de generation de fichier excel lors de la validation mais cela se fera lors de l’execution du NAS 
+
+
+    //    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Sales-Post", 'OnAfterPostSalesLines', '', true, true)]
+    //    local procedure "Sales-Post_OnAfterPostSalesLines"
+    //    (
+    //       var SalesHeader: Record "Sales Header";
+    //       var SalesShipmentHeader: Record "Sales Shipment Header";
+    //       var SalesInvoiceHeader: Record "Sales Invoice Header";
+    //        var SalesCrMemoHeader: Record "Sales Cr.Memo Header";
+    //        var ReturnReceiptHeader: Record "Return Receipt Header";
+    //        WhseShip: Boolean;
+    //        WhseReceive: Boolean;
+    //        var SalesLinesProcessed: Boolean;
+    //        CommitIsSuppressed: Boolean
+    //    )
+    //    var
+    //        CuExportPackingList: Codeunit "Export Packing List";
+    //    begin
+    //       if WhseShip then
+    //            CuExportPackingList.Export(SalesShipmentHeader);
+    //    end;
+
+# Changelog 2019-07-26
+
+* OL : PageExt 50092 : Création d'une page ext pour ajouter la colonne SOLDE
+* DS : Report 50031 AL : Branchement dans Departement > Algo > Etat&List
+* DS : Report 50031 Rdl: Ajustements de colonnes-marges, masquage de la colonne Autoriser remise facture
+* Ds : CodeUnit 50052 : Modification de l'appel du report 407 Avoir Achat par  le report 50031 Avoir Achat Frns Algo
+* Ds : Report 50027 : Ajustement des marges/colonnes car souci editique sur plusieurs pages à cause des colonnes
+* Ds : Xml 50009 : modification du caption (import purchase line) par (Import prevision de production)
+* Ds : PageExt 50093 : Création d'une page ext pour ajouter le bouton d'import XML50009 + Bouton pour P50046 
+* Ds : Suppression de la P50046 du departement ALGO
+* Ds: Table 50012 : ajout du "C.U.F." dans OptionMembers + modif dans fichier de traduction
+
+# Changelog 2019-07-25
+
+* DS : Report 50022 : ajout de totaux en bas de tableaux / affichage conditionné sur [Totaliser lignes]
+* DS : Report 50022 : Augmentation de la hauteur des lignes
+
+# Changelog 2019-07-24
+
+* DS : Report 50076 : modification du champs d'export [lines no] qui sera basé sur la table des composants OF et non prod order.
+* DS : Report 50064 : Modification du calcul du champs [Stock Achat 1+2] dans le report en rcalculant les qté CA à partir des purchase line.
+* DS : CodeUnit 50052 : Modification de l'appel du report 5704 Transfer Shipment avec le report 50019
+* DS : Page 50046 : Creation de la page ForeCastEntryDetails - Détails Prévision de production
+
+# Changelog 2019-07-23
+
+* OL: Modification des flowfields "Date dernière..." => passage en tâche SQL et création d'un vrai champ en extension
+* DS : REPORT 50019 : Ajout d'une incrementation auto des num de lignes, re-ordonnancement des colonnes, ouvertur excel pour le user
+
+Avant :
+```
+    procedure MakeExcelDataHeader()
+    begin
+        ExcelBuf.NewRow();
+        ExcelBuf.AddColumn('Nom modŠle feuille', FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line".FIELDCAPTION("Line No."), FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line".FIELDCAPTION("Item No."), FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Header".FIELDCAPTION("Posting Date"), FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn('Type Ecriture', FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line".FIELDCAPTION("Document No."), FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line".FIELDCAPTION(Description), FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn('Code Magasin', FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line".FIELDCAPTION(Quantity), FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn('Nom Feuille', FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn('Nø doc Externe', FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Number);
+        ExcelBuf.AddColumn("Transfer Shipment Line".FIELDCAPTION("Unit of Measure Code"), FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+
+    end;
+
+    procedure MakeExcelDataBody()
+    begin
+        ExcelBuf.NewRow();
+        ExcelBuf.AddColumn('ARTICLE', FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line"."Line No.", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Number);
+        ExcelBuf.AddColumn("Transfer Shipment Line"."Item No.", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Header"."Posting Date", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Date);
+        ExcelBuf.AddColumn('Positif (ajust.)', FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line"."Document No.", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line".Description, FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line"."Transfer-to Code", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line".Quantity, FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Number);
+        ExcelBuf.AddColumn('ODTALGO', FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line"."Transfer Order No.", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line"."Unit of Measure Code", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+    end;
+
+    procedure CreateExcelbook()
+    begin
+        ExcelBuf.CreateBook('ExpTransfErengODT.xls', 'Sheet1');
+        ExcelBuf.WriteSheet(Text013, COMPANYNAME(), USERID());
+        // ERROR('');
+    end;
+
+}
+```
+APRES :
+```
+    procedure MakeExcelDataHeader()
+    begin
+        ExcelBuf.NewRow();
+        numligne := 0;
+        ExcelBuf.AddColumn('Nom Feuille', FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn('Nom modŠle feuille', FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line".FIELDCAPTION("Line No."), FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn('Type Ecriture', FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Header".FIELDCAPTION("Posting Date"), FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line".FIELDCAPTION("Document No."), FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn('Nø doc Externe', FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Number);
+        ExcelBuf.AddColumn("Transfer Shipment Line".FIELDCAPTION("Item No."), FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line".FIELDCAPTION(Description), FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line".FIELDCAPTION(Quantity), FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line".FIELDCAPTION("Unit of Measure Code"), FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn('Code Magasin', FALSE, '', TRUE, FALSE, TRUE, '@', ExcelBuf."Cell Type"::Text);
+    end;
+
+    procedure MakeExcelDataBody()
+    begin
+        ExcelBuf.NewRow();
+        numligne := numligne + 10000;
+        ExcelBuf.AddColumn('ODTALGO', FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn('ARTICLE', FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+        //ExcelBuf.AddColumn("Transfer Shipment Line"."Line No.", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Number);
+        ExcelBuf.AddColumn(numligne, FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Number);
+        ExcelBuf.AddColumn('Positif (ajust.)', FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Header"."Posting Date", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Date);
+        ExcelBuf.AddColumn("Transfer Shipment Line"."Document No.", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line"."Transfer Order No.", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line"."Item No.", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line".Description, FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line".Quantity, FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Number);
+        ExcelBuf.AddColumn("Transfer Shipment Line"."Unit of Measure Code", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+        ExcelBuf.AddColumn("Transfer Shipment Line"."Transfer-to Code", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuf."Cell Type"::Text);
+    end;
+
+    procedure CreateExcelbook()
+    begin
+        ExcelBuf.CreateBookAndOpenExcel('', 'ODTALGO', '', '', USERID());
+        // ExcelBuf.WriteSheet(Text013, COMPANYNAME(), USERID());
+        // ERROR('');
+    end;
+
+    var
+        numligne: Integer;
+}
+
+```
+
+
+
+APRES : 
+```trigger OnBeforeInsertRecord()
+    var
+        RecLCustomer: Record Customer;
+    begin
+        LineNo += 1;
+        TempTreatmentSaleOrder."Line No" := LineNo;
+        IF TempTreatmentSaleOrder."Order Date" = 0D THEN
+            TempTreatmentSaleOrder."Order Date" := TODAY();
+        IF TempTreatmentSaleOrder."Requested Delivery Date" = 0D THEN
+            IF RecLCustomer.GET(TempTreatmentSaleOrder."No. Customer") THEN
+                TempTreatmentSaleOrder."Requested Delivery Date" := CALCDATE(RecLCustomer."Shipping Time", TODAY())
+            ELSE
+                TempTreatmentSaleOrder."Requested Delivery Date" := TODAY();
+    end;
+
+var
+    LineNo: Integer;```
+
+# Changelog 2017-07-19
+publication en production le 21/07/2019 à 20h45
+
+publication en test le 22/07/2019 à 08h00

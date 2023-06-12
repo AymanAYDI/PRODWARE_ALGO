@@ -1,0 +1,39 @@
+{
+  "id": "934c1a8f-1bd7-47a1-a1f6-6fc0515a1802",
+  "name": "ALGO",
+  "publisher": "ALGO",
+  "brief": "Version j+2",
+  "description": "",
+  "version": "1.0.1907.17",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [],
+  "screenshots": [],
+  "platform": "1.0.0.0",
+  "application": "22.0.0.0",
+  "idRanges": [
+    {
+      "from": 50000,
+      "to": 50200
+    }
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": false,
+    "includeSourceInSymbolFile": false
+  },
+  "runtime": "11.0",
+  "contextSensitiveHelpUrl": "https://standis.com/help/",
+  "features": [
+    "TranslationFile"
+  ],
+  "supportedLocales": [
+    "en-US",
+    "fr-FR"
+  ],
+  "target": "Cloud"
+
+}

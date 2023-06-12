@@ -1,0 +1,21 @@
+{
+    "name": "Quality Management RuleSet",
+    "description": "Customizations to the default Business Central RuleSet",
+    "rules": [
+        {
+            "id": "AA0139",
+            "action": "None",
+            "justification": "Migration"
+        },
+        {
+            "id": "AA0074",
+            "action": "None",
+            "justification": "Migration"
+        }
+        ,
+        {
+            "id": "PTE0005",
+            "action": "None",
+            "justification": "On premise"
+        }    ]
+}

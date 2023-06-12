@@ -1,0 +1,10 @@
+#ignore app
+*.app
+*.xml
+/.vscode/*.json
+/.vscode/.alcache
+/.altemplates/
+/.alcache/
+*.zip
+/.Translations/*.zip
+Reports/Rep50072.InventoryPickingListCLIC.rdl
